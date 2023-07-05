@@ -2,7 +2,7 @@ install.packages('tidyverse')
 library(tidyverse)
 
 # List of file paths
-csv_files <- list.files(pattern = "*.csv", full.names = TRUE)
+csv_files <- list.files(path= "./data", pattern = "*.csv", full.names = TRUE)
 
 print(csv_files)
 
