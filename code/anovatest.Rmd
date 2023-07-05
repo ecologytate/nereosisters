@@ -1,0 +1,59 @@
+---
+title: "anova TEST"
+output: html_document
+date: "2023-07-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# Sample data for four treatment groups
+group1 <- c(10, 12, 13, 15, 11)
+group2 <- c(9, 11, 14, 12, 10)
+group3 <- c(8, 10, 9, 11, 12)
+group4 <- c(12, 11, 10, 9, 13)
+
+# Combine the data into a single data frame
+data <- data.frame(
+  Group = factor(rep(c("Group 1", "Group 2", "Group 3", "Group 4"), each = 5)),
+  Value = c(group1, group2, group3, group4)
+)
+
+# Perform the ANOVA test
+result <- aov(Value ~ Group, data = data)
+
+# Print the ANOVA table
+print(summary(result))
+
+
+#Running an ANOVA + Tukey Test
+
+# Sample data for four treatment groups
+group1 <- c(10, 12, 13, 15, 11)
+group2 <- c(9, 11, 14, 12, 10)
+group3 <- c(8, 10, 9, 11, 12)
+group4 <- c(12, 11, 10, 9, 13)
+
+# Combine the data into a single data frame
+data <- data.frame(
+  Group = factor(rep(c("Group 1", "Group 2", "Group 3", "Group 4"), each = 5)),
+  Value = c(group1, group2, group3, group4)
+)
+
+# Perform the ANOVA test
+result <- aov(Value ~ Group, data = data)
+
+# Perform Tukey's post hoc test
+tukey <- TukeyHSD(result)
+
+# Print the ANOVA table
+print(summary(result))
+
+# Print the Tukey test results
+print(tukey)
+
+```
+
