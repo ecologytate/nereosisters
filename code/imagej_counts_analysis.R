@@ -39,6 +39,6 @@ matching_names <- unique(combined_df$treat_well[duplicated(combined_df$treat_wel
 # Subset the data frame to include only the rows with matching names
 subset_data <- combined_df[combined_df$treat_well %in% matching_names, ]
 
-# Sum the rows and create a new row with the summed values
+# Sum the rows and create a new dataframe with the summed values
 summed_data <- aggregate(cbind(female, male, unk) ~ treat_well, data = subset_data, FUN = sum)
 
