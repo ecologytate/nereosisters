@@ -15,7 +15,7 @@ combined_df <- do.call(rbind, lapply(csv_files, read.csv))
 # Rename columns using the rename() function
 combined_df <- combined_df %>% 
   select(-Slice) %>% # remove the slice column
-  rename(unk=Ctr.0, female=Ctr.1, male=Ctr.2) %>% # rename counter 0 to unknown, counter 1 to female, and counter 2 to male 
+  rename(unk=Ctr.0, female=Ctr.1, male=Ctr.2, und=Ctr.3) %>% # rename counter 0 to unknown, counter 1 to female, and counter 2 to male 
   mutate(treat_wellpic=file_name) %>% # add a column for treatment and well ID named after the .csv file names 
   relocate(treat_wellpic, .before = unk) # relocate the column to the first column in the dataframe
 
@@ -40,5 +40,5 @@ matching_names <- unique(combined_df$treat_well[duplicated(combined_df$treat_wel
 subset_data <- combined_df[combined_df$treat_well %in% matching_names, ]
 
 # Sum the rows and create a new dataframe with the summed values
-summed_data <- aggregate(cbind(female, male, unk) ~ treat_well, data = subset_data, FUN = sum)
+summed_data <- aggregate(cbind(female, male, unk, und) ~ treat_well, data = subset_data, FUN = sum)
 
