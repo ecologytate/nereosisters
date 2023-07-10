@@ -1,15 +1,3 @@
----
-title: "anova TEST"
-output: html_document
-date: "2023-07-05"
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-
-```{r}
 #Add T10, T13, T15, T18 data frames
 # Provide the file path
 file_path1 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T10 Data.csv"
@@ -31,37 +19,30 @@ file_path4 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed dat
 
 # Read the CSV file
 T18Data <- read.csv(file_path4)
-```
 
 
-
-```{r}
 # Sample data for four treatment groups
-Sratio10 <- T10Data$female / T10Data$male
-print(Sratio10)
-Sratio13 <- T13Data$female / T13Data$male
-print(Sratio13)
-Sratio15 <- T15Data$female / T15Data$male
-print(Sratio15)
-Sratio18 <- T18Data$female / T18Data$male
-print(Sratio18)
-```
+T10 <- T10Data$female / T10Data$male
+T13 <- T13Data$female / T13Data$male
+T15 <- T15Data$female / T15Data$male
+T18 <- T18Data$female / T18Data$male
+
+# Combine the data into a single data frame
+data <- data.frame(
+  Group = factor(rep(c("Group 10", "Group 13", "Group 15", "Group 18"), each = 18)),
+  Value = c(T10, T13, T15, T18)
+)
+
+# Perform the ANOVA test
+result <- aov(Value ~ Group, data = data)
 
 
+# Print the ANOVA table
+print(summary(result))
 
-```{r}
-meanSratio10 <- mean(Sratio10)
-meanSratio13 <- mean(Sratio13, na.rm = TRUE)
-meanSratio15 <- mean(Sratio15)
-meanSratio18 <- mean(Sratio18, na.rm = TRUE)
-print(meanSratio10)
-print(meanSratio13)
-
-print(meanSratio15)
-print(meanSratio18)
-```
-```{r}
-
-
-```
+#Print summary stats
+print(summary(T10))
+print(summary(T13))
+print(summary(T15))
+print(summary(T18))
 
