@@ -9,7 +9,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-
 ```{r}
 #Add T10, T13, T15, T18 data frames
 # Provide the file path
@@ -32,57 +31,37 @@ file_path4 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed dat
 
 # Read the CSV file
 T18Data <- read.csv(file_path4)
-
-
 ```
 
 
 
 ```{r}
 # Sample data for four treatment groups
-group10 <- 
-group13 <- c(9, 11, 14, 12, 10)
-group15 <- c(8, 10, 9, 11, 12)
-group18 <- c(12, 11, 10, 9, 13)
-
-# Combine the data into a single data frame
-data <- data.frame(
-  Group = factor(rep(c("Group 1", "Group 2", "Group 3", "Group 4"), each = 5)),
-  Value = c(group1, group2, group3, group4)
-)
-
-# Perform the ANOVA test
-result <- aov(Value ~ Group, data = data)
-
-# Print the ANOVA table
-print(summary(result))
+Sratio10 <- T10Data$female / T10Data$male
+print(Sratio10)
+Sratio13 <- T13Data$female / T13Data$male
+print(Sratio13)
+Sratio15 <- T15Data$female / T15Data$male
+print(Sratio15)
+Sratio18 <- T18Data$female / T18Data$male
+print(Sratio18)
+```
 
 
-#Running an ANOVA + Tukey Test
 
-# Sample data for four treatment groups
-group1 <- c(10, 12, 13, 15, 11)
-group2 <- c(9, 11, 14, 12, 10)
-group3 <- c(8, 10, 9, 11, 12)
-group4 <- c(12, 11, 10, 9, 13)
+```{r}
+meanSratio10 <- mean(Sratio10)
+meanSratio13 <- mean(Sratio13, na.rm = TRUE)
+meanSratio15 <- mean(Sratio15)
+meanSratio18 <- mean(Sratio18, na.rm = TRUE)
+print(meanSratio10)
+print(meanSratio13)
 
-# Combine the data into a single data frame
-data <- data.frame(
-  Group = factor(rep(c("Group 1", "Group 2", "Group 3", "Group 4"), each = 5)),
-  Value = c(group1, group2, group3, group4)
-)
+print(meanSratio15)
+print(meanSratio18)
+```
+```{r}
 
-# Perform the ANOVA test
-result <- aov(Value ~ Group, data = data)
-
-# Perform Tukey's post hoc test
-tukey <- TukeyHSD(result)
-
-# Print the ANOVA table
-print(summary(result))
-
-# Print the Tukey test results
-print(tukey)
 
 ```
 

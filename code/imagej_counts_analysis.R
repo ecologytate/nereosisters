@@ -42,3 +42,7 @@ subset_data <- combined_df[combined_df$treat_well %in% matching_names, ]
 # Sum the rows and create a new dataframe with the summed values
 summed_data <- aggregate(cbind(female, male, unk, und) ~ treat_well, data = subset_data, FUN = sum)
 
+
+# Save the data frame as a CSV file
+write.csv(summed_data, "SUMMED72.csv")
+
