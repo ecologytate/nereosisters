@@ -42,10 +42,9 @@ rownames(observed) <- c("T10", "T13", "T15", "T18")
 print(observed)
 
 # Define expected probabilities
-expected_prob <- c(0.5, 0.5)
 
 # Run chi-squared test with expected probability of 0.5
-result <- chisq.test(observed, p = expected_prob)
+result <- chisq.test(observed, p = c(0.5, 0.5))
 
 # Print the result
 print(result)
