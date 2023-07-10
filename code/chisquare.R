@@ -2,6 +2,7 @@
 
 #load library
 library(tidyverse)
+library(stats)
 
 summed_original <- read_csv("./output/summed-original-72.csv")
 
@@ -67,7 +68,7 @@ result2 <- chisq.test(observed, p = expected_proportion)
 print(result2)
 
 # Run pairwise chi-square tests for multiple comparisons
-pairwise_result <- pairwise.chisq.test(observed)
+pairwise_result <- pairwise.prop.test(observed, p.adjust.method = "bonferroni")
 
 # Print the pairwise comparison result
 print(pairwise_result)
