@@ -9,12 +9,41 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+
+```{r}
+#Add T10, T13, T15, T18 data frames
+# Provide the file path
+file_path1 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T10 Data.csv"
+
+# Read the CSV file
+T10Data <- read.csv(file_path1)
+
+file_path2 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T13 Data.csv"
+
+# Read the CSV file
+T13Data <- read.csv(file_path2)
+
+file_path3 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T15 Data.csv"
+
+# Read the CSV file
+T15Data <- read.csv(file_path3)
+
+file_path4 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T18 Data.csv"
+
+# Read the CSV file
+T18Data <- read.csv(file_path4)
+
+
+```
+
+
+
 ```{r}
 # Sample data for four treatment groups
-group1 <- c(10, 12, 13, 15, 11)
-group2 <- c(9, 11, 14, 12, 10)
-group3 <- c(8, 10, 9, 11, 12)
-group4 <- c(12, 11, 10, 9, 13)
+group10 <- 
+group13 <- c(9, 11, 14, 12, 10)
+group15 <- c(8, 10, 9, 11, 12)
+group18 <- c(12, 11, 10, 9, 13)
 
 # Combine the data into a single data frame
 data <- data.frame(
