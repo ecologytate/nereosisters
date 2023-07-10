@@ -2,7 +2,10 @@
 
 # Load library
 library(tidyverse)
+
 # Read in data
+library(stats)
+
 summed_original <- read_csv("./output/summed-original-72.csv")
 
 # Add temp column to summed-original-72 data frame
@@ -39,10 +42,9 @@ rownames(observed) <- c("T10", "T13", "T15", "T18")
 print(observed)
 
 # Define expected probabilities
-expected_prob <- c(0.5, 0.5)
 
 # Run chi-squared test with expected probability of 0.5
-result <- chisq.test(observed, p = expected_prob)
+result <- chisq.test(observed, p = c(0.5, 0.5))
 
 # Print the result
 print(result)
@@ -64,8 +66,8 @@ result2 <- chisq.test(observed, p = expected_proportion)
 # Print the result
 print(result2)
 
-# Perform post hoc pairwise chi-square test
-posthoc_result <- pairwise.prop.test(observed, p.adjust.method = "bonferroni")
+# Run pairwise chi-square tests for multiple comparisons
+pairwise_result <- pairwise.prop.test(observed, p.adjust.method = "bonferroni")
 
 # Print the post hoc pairwise test result
 print(posthoc_result)
