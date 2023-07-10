@@ -44,5 +44,5 @@ summed_data <- aggregate(cbind(female, male, unk, und) ~ treat_well, data = subs
 
 
 # Save the data frame as a CSV file
-write.csv(summed_data, "SUMMED72.csv")
+write.csv(summed_data, "summed-original-72.csv")
 
