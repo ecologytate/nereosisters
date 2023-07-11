@@ -46,3 +46,19 @@ summed_data <- aggregate(cbind(female, male, unk, und) ~ treat_well, data = subs
 # Save the data frame as a CSV file
 write.csv(summed_data, "summed-original-72.csv")
 
+install.packages('gt')
+library(gt)
+
+# Create beautiful table to export
+# Convert data frame to 'gt' object
+gt_object <- gt(summed_original)
+
+# Modify column headers
+gt_object <- gt_object %>%
+  tab_header(
+    title = "Gametophyte Count Data",
+    subtitle = "This table displays the temperature treatment and summed count data of three measurements for each sample."
+  )
+
+# Print the table
+print(gt_object)
