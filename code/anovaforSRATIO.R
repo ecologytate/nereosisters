@@ -1,24 +1,15 @@
 #Add T10, T13, T15, T18 data frames
-# Provide the file path
-file_path1 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T10 Data.csv"
+# Read the T10 CSV file
+T10Data <- read.csv("./summed data/T10 Data.csv")
 
-# Read the CSV file
-T10Data <- read.csv(file_path1)
+# Read the T13 CSV file
+T13Data <- read.csv("./summed data/T13 Data.csv")
 
-file_path2 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T13 Data.csv"
+# Read the T15 CSV file
+T15Data <- read.csv("./summed data/T13 Data.csv")
 
-# Read the CSV file
-T13Data <- read.csv(file_path2)
-
-file_path3 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T15 Data.csv"
-
-# Read the CSV file
-T15Data <- read.csv(file_path3)
-
-file_path4 <- "C:\\Users\\FHL Guest\\Documents\\GitHub\\nereosisters\\summed data\\T18 Data.csv"
-
-# Read the CSV file
-T18Data <- read.csv(file_path4)
+# Read the T18 CSV file
+T18Data <- read.csv("./summed data/T13 Data.csv")
 
 
 # Sample data for four treatment groups

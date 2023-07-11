@@ -11,7 +11,7 @@ library(tidyverse)
 
 Data
 ```{r}
-summed_original <- read_csv("./output/summed-original-72.csv")
+summed_original <- read_csv("../output/summed-original-72.csv")
 ```
 
 Add temp column to summed-original-72 data frame

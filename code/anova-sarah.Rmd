@@ -1,0 +1,116 @@
+---
+title: "anova-sarah"
+author: "Sarah Tanja"
+date: "2023-07-11"
+output: html_document
+---
+
+Packages
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+library(ggplot2)
+```
+Data
+```{r}
+summed_original <- read_csv("../output/summed-original-72.csv") %>% 
+  select(-1) # unselect 1st column of row numbers
+```
+Add F:M Sex Ratio Column
+```{r}
+kelp_gams <- summed_original %>% 
+  mutate(sex_ratio = female/male)
+```
+
+Remove NA and Inf 
+```{r}
+kelp_gams <- na.omit(kelp_gams)
+kelp_gams <- kelp_gams %>% filter_all(all_vars(!is.infinite(.)))
+```
+
+ANOVA
+```{r}
+anova <- aov(sex_ratio ~ temp, data = kelp_gams)
+summary(anova)
+```
+
+Plot 
+```{r}
+# Create the violin plot
+ggplot(kelp_gams, aes(x = temp, y = sex_ratio)) +
+  geom_violin() +
+  labs(x = "Temperature Treatment", y = "Sex Ratio (F:M)") +
+  ggtitle("Violin Plot of Sex Ratio by Temperature Treatment")
+```
+
+
+Remove the outliers
+```{r}
+library(dplyr)
+install.packages("outliers")
+library(outliers)
+
+# Calculate z-scores for the variable
+kelp_gams_no_scrubs <- kelp_gams %>%
+  mutate(z_score = scale(sex_ratio))
+
+# Set a threshold for outlier detection (e.g., z-score > 3 or < -3)
+threshold <- 3
+
+# Filter out the outliers based on the threshold
+kelp_gams_no_scrubs <- kelp_gams_no_scrubs %>%
+  filter(!(abs(z_score) > threshold))
+```
+
+Or Just remove the outlier column 12 (T10_W12)
+```{r}
+kelp_gams_no_scrubs <- kelp_gams %>% 
+  filter(!(row_number() == 12))
+```
+
+Rerun ANOVA without outlier
+```{r}
+anova_no_scrubs <- aov(sex_ratio ~ temp, data = kelp_gams_no_scrubs)
+summary(anova_no_scrubs)
+```
+
+Plot it again...
+```{r}
+ggplot(kelp_gams_no_scrubs, aes(x = temp, y = sex_ratio, fill = temp)) +
+  geom_violin() +
+  labs(x = "Temperature Treatment", y = "Sex Ratio (F:M)") +
+  ggtitle("Violin Plot of Sex Ratio by Temperature Treatment")
+```
+
+Plot it simple with box
+```{r}
+library(hrbrthemes)
+install.packages("viridis")
+library(viridis)
+
+kelp_gams_no_scrubs %>%
+  ggplot( aes(x=temp, y=sex_ratio, fill=temp)) +
+    geom_boxplot() +
+    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+    geom_jitter(color="black", size=0.4, alpha=0.9) +
+    #theme_ipsum() +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=11)
+    ) +
+    ggtitle("Temperature Treatments vs. F:M Sex Ratio in Nereocystis Gametophytes") +
+    xlab("") +
+    ylab("Sex Ratio ( Female : Male )") +
+    geom_hline(yintercept = 1, color = "red", size = 1) +
+    scale_x_discrete(
+      breaks = unique(kelp_gams_no_scrubs$temp),
+      labels = c(expression(paste("10 (", degree, "C)")),
+               expression(paste("13 (", degree, "C)")),
+               expression(paste("15 (", degree, "C)")),
+               expression(paste("18 (", degree, "C)")))
+    )
+
+ggsave("../output/sex-ratio-plot.png", width = 6, height = 4, dpi = 300)
+```
+expression(paste("10 (", degree, "C)"))
+
