@@ -34,7 +34,8 @@ combined_data <- merge(merge(sum_data_fem, sum_data_mal, by = "summed_original$t
 print(combined_data)
 
 # Create new contingency table to run Chi-sq
-observed <- matrix(c(347, 450, 456, 693, 552, 739, 632, 649), nrow = 4, ncol = 2, byrow = TRUE) # Observed frequencies manually entered from combined_data
+# Observed frequencies manually entered from combined_data
+observed <- matrix(c(347, 450, 456, 693, 552, 739, 632, 649), nrow = 4, ncol = 2, byrow = TRUE) 
 colnames(observed) <- c("Female", "Male")
 rownames(observed) <- c("T10", "T13", "T15", "T18")
 

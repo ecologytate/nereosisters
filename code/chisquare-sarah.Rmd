@@ -1,0 +1,89 @@
+---
+title: "chisquare-goodness"
+author: "Sarah Tanja"
+date: "2023-07-10"
+output: html_document
+---
+Packages
+```{r}
+library(tidyverse)
+```
+
+Data
+```{r}
+summed_original <- read_csv("./output/summed-original-72.csv")
+```
+
+Add temp column to summed-original-72 data frame
+```{r}
+T10 <- rep("T10", 18)
+T13 <- rep("T13", 18)
+T15 <- rep("T15", 18)
+T18 <- rep("T18", 18)
+summed_original <- summed_original %>%
+  mutate(temp = c(T10, T13, T15, T18)) %>%
+  relocate(temp, .before = treat_well)
+```
+
+```{r}
+# Sum count data by treatments
+sum_data_fem <- aggregate(summed_original$female ~ summed_original$temp, summed_original, sum)
+sum_data_mal <- aggregate(summed_original$male ~ summed_original$temp, summed_original, sum)
+sum_data_all <- aggregate(summed_original$female+summed_original$male ~ summed_original$temp, summed_original, sum)
+```
+
+```{r}
+# Combine aggregated data into a new data frame
+combined_data <- merge(merge(sum_data_fem, sum_data_mal, by = "summed_original$temp"), sum_data_all, by = "summed_original$temp")
+```
+
+Add female:male sex ratio
+```{r}
+sex_ratio <- combined_data %>% 
+  mutate(temp = `summed_original$temp`, female = `summed_original$female`,
+         male = `summed_original$male`, total = `summed_original$female + summed_original$male`) %>% 
+  mutate(observed_sex_ratio = female/male) %>% 
+  select(-`summed_original$temp`, -`summed_original$female`, -`summed_original$male`, -`summed_original$female + summed_original$male`) %>% 
+  mutate(expected_sex_ratio = c(1,1,1,1)) %>% 
+  mutate(exected_female = total/2, expected_male = total/2)
+```
+
+The χ2 test in R (short way around) The test can be run using chisq.test(). For a goodness‐of‐fit test, instead of specifying the predicted counts, we specify the predicted probabilities of falling in each category under the null hypothesis. In the case of the quail example, this probability is 0.25 (one quarter predicted in each category). The function rep() can be used to create a vector of repeated values.
+chisq.test(x = c(86,43,25,24), p=c(0.25,0.25,0.25,0.25))
+chisq.test(x = c(86,43,25,24), p=rep(x=0.25, times=4))
+
+Yates correction for continuity The count data used to obtain the χ2 test values are discrete (only particular values are possible for a given total count). However, the underlying theoretical χ2 distribution is continuous (any value of χ2 is possible). For cases where the number of categories is k ≥ 3 (v ≥ 2) the approximation is very good. But for cases with just 2 categories (k = 2, v = 1), and only for this case, the Yates correction for continuity should be used to obtain a modified χ2 test statistic, which subtracts 0.5 from the absolute value of each term before squaring:
+```{r}
+T10_counts <- sex_ratio %>% 
+  filter(row_number()==1)
+T13_counts <- sex_ratio %>% 
+  filter(row_number()==2)
+T15_counts <- sex_ratio %>% 
+  filter(row_number()==3)
+T18_counts <- sex_ratio %>% 
+  filter(row_number()==4)
+```
+
+
+```{r}
+chisq.test(x = c(T10_counts$female, T10_counts$male), 
+                       p = c(.5, .5), 
+                       correct = TRUE)
+```
+```{r}
+chisq.test(x = c(T13_counts$female, T13_counts$male), 
+                       p = c(.5, .5), 
+                       correct = TRUE)
+```
+
+```{r}
+chisq.test(x = c(T15_counts$female, T15_counts$male), 
+                       p = c(.5, .5), 
+                       correct = TRUE)
+```
+
+```{r}
+chisq.test(x = c(T18_counts$female, T18_counts$male), 
+                       p = c(.5, .5), 
+                       correct = TRUE)
+```
